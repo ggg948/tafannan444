@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار نوع الدفع</title>
+    <!-- ربط مكتبة Font Awesome للأيقونات -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #76b5df;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-out;
+            width: 300px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #4CAF50;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .payment-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+
+        .additional-options {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .additional-options input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h2>اختيار طريقة الدفع</h2>
+        <form id="payment-form">
+            <label for="payment-method">طريقة الدفع:</label>
+            <select id="payment-method" name="payment-method" onchange="showPaymentOptions()">
+                <option value="">اختر طريقة الدفع</option>
+                <option value="credit-card">بطاقة ائتمان <i class="fas fa-credit-card payment-icon"></i></option>
+                <option value="debit-card">بطاقة خصم <i class="fas fa-credit-card payment-icon"></i></option>
+                <option value="paypal">باي بال <i class="fab fa-paypal payment-icon"></i></option>
+                <option value="bank-transfer">تحويل بنكي <i class="fas fa-university payment-icon"></i></option>
+                <option value="cash">نقداً عند الاستلام <i class="fas fa-cash-register payment-icon"></i></option>
+            </select>
+
+            <div id="credit-card-options" class="additional-options">
+                <label for="card-number">رقم البطاقة:</label>
+                <input type="text" id="card-number" placeholder="ادخل رقم البطاقة" />
+
+                <label for="expiry-date">تاريخ الانتهاء:</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" />
+
+                <label for="cvv">رمز الأمان (CVV):</label>
+                <input type="text" id="cvv" placeholder="ادخل رمز CVV" />
+            </div>
+
+            <div id="debit-card-options" class="additional-options">
+                <label for="debit-card-number">رقم بطاقة الخصم:</label>
+                <input type="text" id="debit-card-number" placeholder="ادخل رقم بطاقة الخصم" />
+            </div>
+
+            <div id="paypal-options" class="additional-options">
+                <label for="paypal-email">البريد الإلكتروني لحساب باي بال:</label>
+                <input type="email" id="paypal-email" placeholder="ادخل بريدك الإلكتروني" />
+            </div>
+
+            <div id="bank-transfer-options" class="additional-options">
+                <label for="bank-account">رقم الحساب البنكي:</label>
+                <input type="text" id="bank-account" placeholder="ادخل رقم الحساب البنكي" />
+            </div>
+
+            <div id="cash-options" class="additional-options">
+                <p>سيتم دفع المبلغ نقداً عند الاستلام.</p>
+            </div>
+
+            <input type="submit" value="إرسال">
+        </form>
+    </div>
+
+    <script>
+        function showPaymentOptions() {
+            // إخفاء جميع الخيارات
+            document.querySelectorAll('.additional-options').forEach(function(option) {
+                option.style.display = 'none';
+            });
+
+            var selectedMethod = document.getElementById('payment-method').value;
+
+            // إظهار الخيارات بناءً على الدفع المحدد
+            if (selectedMethod === 'credit-card') {
+                document.getElementById('credit-card-options').style.display = 'block';
+            } else if (selectedMethod === 'debit-card') {
+                document.getElementById('debit-card-options').style.display = 'block';
+            } else if (selectedMethod === 'paypal') {
+                document.getElementById('paypal-options').style.display = 'block';
+            } else if (selectedMethod === 'bank-transfer') {
+                document.getElementById('bank-transfer-options').style.display = 'block';
+            } else if (selectedMethod === 'cash') {
+                document.getElementById('cash-options').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
+
